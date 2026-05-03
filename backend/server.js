@@ -15,7 +15,7 @@ const timetableUpload = multer({
   limits: { fileSize: 10 * 1024 * 1024 },
 });
 
-const PORT = parseInt(process.env.PORT || "3000", 10);
+const PORT = parseInt(process.env.PORT || "5000", 10);
 
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 16) {
   console.warn("[warn] Set JWT_SECRET (min 16 chars) in environment for production.");
