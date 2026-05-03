@@ -1,7 +1,8 @@
 node_modules/
-mobile/node_modules/
-.env
-mobile/.env
+backend/node_modules/
+frontend/node_modules/
+backend/.env
+frontend/.env
 *.log
 .DS_Store
 backend/uploads/*

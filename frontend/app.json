@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "UniNavigator",
+    "slug": "uninavigator-frontend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "extra": {
+      "apiUrl": "http://localhost:5000"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
+}
