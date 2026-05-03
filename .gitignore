@@ -1,7 +1,0 @@
-node_modules/
-mobile/node_modules/
-.env
-mobile/.env
-*.log
-.DS_Store
-backend/uploads/*
