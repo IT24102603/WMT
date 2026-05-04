@@ -294,7 +294,7 @@ app.post("/login", async (req, res) => {
     const token = generateToken(user._id);
     res.json({
       token,
-      id: user._id,
+      id: user._id.toString(),
       name: user.name,
       email: user.email,
       index_number: user.index_number,
