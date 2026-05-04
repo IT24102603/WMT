@@ -791,8 +791,9 @@ function AttendanceScreen() {
   };
 
   const saveModule = async () => {
-    setErr("");
-    if (!modForm.name || !modForm.university_id) return setErr("Name and university required.");
+  setErr("");
+  if (!modForm.name || !modForm.university_id || !modForm.code) 
+    return setErr("Name, code, and university required.");
     setSaving(true);
     try {
       const ay = parseInt(modForm.academic_year, 10) || 1;
