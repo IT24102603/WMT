@@ -1648,13 +1648,14 @@ function AdminHallsScreen() {
     if (!hallForm.name || !hallForm.lat || !hallForm.lng || !hallForm.radius) return setErr("Name, lat, lng, and radius are required.");
     setSaving(true);
     try {
-      const { data } = await api.post(`/universities/${selectedUni}/halls`, {
-        name: hallForm.name.trim(),
-        building: hallForm.building.trim() || null,
-        floor: hallForm.floor ? parseInt(hallForm.floor, 10) : null,
+      const { data } = await api.post(`/admin/lecture-halls`, {
+        hall_name: hallForm.name.trim(),
+        building_name: hallForm.building.trim() || null,
+        floor_number: hallForm.floor ? parseInt(hallForm.floor, 10) : null,
         center_lat: parseFloat(hallForm.lat),
         center_lng: parseFloat(hallForm.lng),
         radius_m: parseInt(hallForm.radius, 10),
+        university_id: selectedUni,
         admin_user_id: user.id,
       });
       if (data?.error) throw new Error(data.error);

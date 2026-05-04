@@ -851,7 +851,7 @@ app.get("/universities/:id/halls", async (req, res) => {
     const halls = await LectureHall.find({ university_id: req.params.id })
       .sort({ floor_number: 1, building_name: 1, hall_name: 1 })
       .select("hall_name building_name floor_number center_lat center_lng radius_m");
-    res.json(halls);
+    res.json(halls.map(h => ({ ...h.toObject(), id: h._id, name: h.hall_name, building: h.building_name, floor: h.floor_number })));
   } catch (err) {
     res.json([]);
   }
