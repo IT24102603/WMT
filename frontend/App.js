@@ -409,7 +409,7 @@ function DashboardScreen() {
             const diff = Math.ceil((due - today) / 86400000);
             const dayText = diff === 0 ? "Today" : diff === 1 ? "Tomorrow" : `${diff} days`;
             return (
-              <Text key={t.id} style={{ color: COLORS.textMuted, fontSize: 13, marginBottom: 2 }}>
+              <Text key={String(t.id || t._id)} style={{ color: COLORS.textMuted, fontSize: 13, marginBottom: 2 }}>
                 • {t.title} — <Text style={{ color: COLORS.warning }}>{dayText}</Text>
               </Text>
             );
@@ -441,7 +441,7 @@ function DashboardScreen() {
         <>
           <SectionTitle title="Semester GPAs" />
           {gpaData.semesters.map(s => (
-            <Card key={s.semester} style={styles.semCard}>
+            <Card key={`${s.semester}-${s.academic_year}`} style={styles.semCard}>
               <Text style={styles.semLabel}>Year {s.academic_year || "–"} / Sem {s.semester_in_year || s.semester}</Text>
               <Text style={styles.semGpa}>{s.gpa?.toFixed(2)}</Text>
             </Card>
@@ -1834,7 +1834,7 @@ function AdminConcernsScreen() {
 
       {concerns.length === 0 && <Text style={styles.emptyText}>No {statusFilter} concerns.</Text>}
       {concerns.map(c => (
-        <Card key={String(c.id)} style={{ marginBottom: 10 }}>
+        <Card key={String(c.id || c._id)} style={{ marginBottom: 10 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
             <Text style={{ color: COLORS.text, fontWeight: "700" }}>{c.student_name || "Unknown"}</Text>
             <View style={[styles.statusBadge, { backgroundColor: statusColor(c.status) }]}>
