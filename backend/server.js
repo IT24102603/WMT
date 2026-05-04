@@ -457,8 +457,10 @@ app.post("/modules", async (req, res) => {
     const mod = await Module.create({ user_id, ...payload });
     res.json({ id: mod._id });
   } catch (err) {
-    res.json({ error: "Insert failed" });
-  }
+  console.error("Module insert error:", err.message);
+  if (err.code === 11000) return res.status(400).json({ error: "This module already exists for this semester" });
+  res.status(500).json({ error: err.message || "Insert failed" });
+}
 });
 
 // PUT /modules/:id
