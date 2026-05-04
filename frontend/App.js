@@ -1,5 +1,3 @@
-
-
 import React, {
   createContext, useContext, useState, useEffect, useCallback, useRef,
 } from "react";
@@ -792,8 +790,7 @@ function AttendanceScreen() {
 
   const saveModule = async () => {
   setErr("");
-  if (!modForm.name || !modForm.university_id || !modForm.code) 
-    return setErr("Name, code, and university required.");
+  if (!modForm.name || !modForm.university_id || !modForm.code.trim()) return setErr("Name, code, and university required.");
     setSaving(true);
     try {
       const ay = parseInt(modForm.academic_year, 10) || 1;
