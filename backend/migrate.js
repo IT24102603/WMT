@@ -1,4 +1,3 @@
-// MYSQL LEGACY — App uses MongoDB + MONGODB_URI; kept for archival with server.mysql.legacy.js
 // Database migration script (idempotent): add missing columns
 const mysql = require("mysql2/promise");
 

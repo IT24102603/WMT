@@ -1,27 +1,20 @@
 {
   "name": "uninavigator-backend",
-  "version": "2.0.0",
-  "description": "UniNavigator — Expo mobile app + Express API + MongoDB",
+  "version": "1.0.0",
   "main": "server.js",
-  "engines": {
-    "node": ">=20.10.0"
-  },
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "lint:server": "node --check server.js",
-    "lint": "node --check server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
-    "express": "^4.21.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.23.1",
-    "multer": "^2.1.1",
-    "nodemailer": "^8.0.3",
-    "pdfkit": "^0.15.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.0",
+    "pdfkit": "^0.14.0",
     "xlsx": "^0.18.5"
   }
 }
