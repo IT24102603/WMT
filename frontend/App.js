@@ -1655,7 +1655,7 @@ function AdminHallsScreen() {
     if (!uniForm.name || !uniForm.email) return setErr("Name and email required.");
     setSaving(true);
     try {
-      const { data } = await api.post("/universities", { name: uniForm.name.trim(), general_email: uniForm.email.trim(), admin_user_id: user.id });
+      const { data } = await api.post("/admin/universities", { name: uniForm.name.trim(), general_email: uniForm.email.trim(), admin_user_id: user.id });
       if (data?.error) throw new Error(data.error);
       setShowAddUni(false);
       setUniForm({ name: "", email: "" });
