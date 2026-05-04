@@ -42,6 +42,17 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const message =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message;
+    return Promise.reject(new Error(message));
+  }
+);
+
 // ============================================================
 // Auth Context
 // ============================================================
