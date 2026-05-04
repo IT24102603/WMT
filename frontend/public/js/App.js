@@ -42,17 +42,6 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const message =
-      error.response?.data?.error ||
-      error.response?.data?.message ||
-      error.message;
-    return Promise.reject(new Error(message));
-  }
-);
-
 // ============================================================
 // Auth Context
 // ============================================================
@@ -77,19 +66,35 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = useCallback(async (email, password) => {
+  try {
     const { data } = await api.post("/login", { email, password });
     if (data.error) throw new Error(data.error);
     await AsyncStorage.setItem("token", data.token);
     await AsyncStorage.setItem("user", JSON.stringify(data));
     setUser(data);
     return data;
-  }, []);
+  } catch (e) {
+    const message =
+      e.response?.data?.error ||
+      e.response?.data?.message ||
+      e.message;
+    throw new Error(message);
+  }
+}, []);
 
   const register = useCallback(async (name, email, password) => {
+  try {
     const { data } = await api.post("/register", { name, email, password });
     if (data.error) throw new Error(data.error);
     return data;
-  }, []);
+  } catch (e) {
+    const message =
+      e.response?.data?.error ||
+      e.response?.data?.message ||
+      e.message;
+    throw new Error(message);
+  }
+}, []);
 
   const logout = useCallback(async () => {
     await api.post("/logout").catch(() => {});
