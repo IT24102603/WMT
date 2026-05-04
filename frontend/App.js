@@ -1,25 +1,4 @@
-/**
- * UniNavigator — React Native / Expo Frontend (Complete Single-File)
- *
- * Full conversion of the UniNavigator web frontend to React Native with Expo.
- *
- * ──────────────────────────────────────────────────────────────────────────
- * SETUP
- * ──────────────────────────────────────────────────────────────────────────
- *   npx create-expo-app UniNavigator --template blank
- *   cd UniNavigator
- *
- *   npm install \
- *     @react-navigation/native @react-navigation/stack @react-navigation/bottom-tabs \
- *     react-native-screens react-native-safe-area-context \
- *     react-native-gesture-handler react-native-reanimated \
- *     axios @react-native-async-storage/async-storage \
- *     expo-location react-native-maps
- *
- *   Replace App.js with this file.
- *   Set API_BASE to your backend URL (e.g. http://192.168.x.x:3000).
- * ──────────────────────────────────────────────────────────────────────────
- */
+
 
 import React, {
   createContext, useContext, useState, useEffect, useCallback, useRef,
@@ -344,6 +323,7 @@ function RegisterScreen({ navigation }) {
 // ============================================================
 function DashboardScreen() {
   const { user } = useAuth();
+  if (!user) return null;
   const [gpaData, setGpaData] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -397,7 +377,7 @@ function DashboardScreen() {
       contentContainerStyle={{ paddingBottom: 40 }}
       refreshControl={<RefreshControl refreshing={refreshing} tintColor={COLORS.accent} onRefresh={() => { setRefreshing(true); load(); }} />}
     >
-      <Text style={styles.pageTitle}>Welcome, {user.name?.split(" ")[0]} 👋</Text>
+      <Text style={styles.pageTitle}>Welcome, {user?.name?.split(" ")[0]} 👋</Text>
 
       {/* Deadline Alert */}
       {deadlines.length > 0 && (

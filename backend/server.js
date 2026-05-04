@@ -415,7 +415,7 @@ app.delete("/users/:id", async (req, res) => {
 // GET /users/:id/modules
 app.get("/users/:id/modules", async (req, res) => {
   try {
-    const rows = await Module.find({ user_id: req.params.id });
+    const rows = await Module.find({ user: req.params.id });
     res.json(rows);
   } catch (err) {
     res.json([]);
@@ -446,15 +446,15 @@ app.post("/modules", async (req, res) => {
     const srcType = typeof source_type === "string" && source_type.trim() ? source_type.trim().slice(0, 30) : "normal";
 
     // Upsert: if code+user+semester+university already exists, update
-    const existing = await Module.findOne({ user_id, code: c, semester: sem, university_id: uniId });
-    const payload = { university_id: uniId, academic_year: ay, semester_in_year: siy, source_type: srcType, name: n, code: c, credits: cred, grade_letter: grade_letter || null, grade_point: grade_point != null ? parseFloat(grade_point) : null, ca_percentage: ca, semester: sem, is_repeat: !!is_repeat };
+    const existing = await Module.findOne({ user: user_id, code: c, semester: sem, university: uniId });
+    const payload = { university: uniId, academic_year: ay, semester_in_year: siy, source_type: srcType, name: n, code: c, credits: cred, grade_letter: grade_letter || null, grade_point: grade_point != null ? parseFloat(grade_point) : null, ca_percentage: ca, semester: sem, is_repeat: !!is_repeat };
 
     if (existing) {
       await Module.findByIdAndUpdate(existing._id, { $set: payload });
       return res.json({ id: existing._id, updated: true });
     }
 
-    const mod = await Module.create({ user_id, ...payload });
+    const mod = await Module.create({ user: user_id, ...payload });
     res.json({ id: mod._id });
   } catch (err) {
   console.error("Module insert error:", err.message);
@@ -515,7 +515,7 @@ app.delete("/modules/:id", async (req, res) => {
 // GET /users/:id/gpa
 app.get("/users/:id/gpa", async (req, res) => {
   try {
-    const rows = await Module.find({ user_id: req.params.id }).sort({ semester: 1, name: 1 });
+    const rows = await Module.find({ user: req.params.id }).sort({ semester: 1, name: 1 });
     const semesters = {};
     let overallCredits = 0;
     let overallPoints = 0;
@@ -1076,7 +1076,7 @@ app.post("/concerns", async (req, res) => {
     if (!university_id) return res.status(400).json({ error: "university_id is invalid" });
     const msg = typeof message === "string" ? message.trim() : "";
     if (!msg || msg.length > 2000) return res.status(400).json({ error: "message is required (max 2000)" });
-    await Concern.create({ user_id, university_id, category: category ? String(category).trim().slice(0, 50) : null, message: msg });
+    await Concern.create({ user: user_id, university: university_id, category: category ? String(category).trim().slice(0, 50) : null, message: msg });
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: "Concern submit failed" });
@@ -1086,8 +1086,8 @@ app.post("/concerns", async (req, res) => {
 // GET /users/:id/concerns
 app.get("/users/:id/concerns", async (req, res) => {
   try {
-    const concerns = await Concern.find({ user_id: req.params.id })
-      .select("university_id category message status created_at forwarded_at")
+    const concerns = await Concern.find({ user: req.params.id })
+      .select("university category message status created_at forwarded_at")
       .sort({ created_at: -1 });
     res.json(concerns);
   } catch (err) {
@@ -1103,8 +1103,8 @@ app.get("/admin/concerns", async (req, res) => {
     await requireAdmin(adminUserId);
     const filter = req.query.status ? { status: String(req.query.status).trim() } : {};
     const concerns = await Concern.find(filter)
-      .populate("user_id", "name")
-      .populate("university_id", "name")
+      .populate("user", "name")
+      .populate("university", "name")
       .sort({ created_at: -1 });
     res.json(concerns);
   } catch (err) {
@@ -1118,15 +1118,15 @@ app.post("/admin/concerns/:id/forward", async (req, res) => {
     const { admin_user_id } = req.body || {};
     if (!admin_user_id) return res.status(400).json({ error: "admin_user_id is required" });
     await requireAdmin(admin_user_id);
-    const concern = await Concern.findById(req.params.id).populate("university_id", "general_email");
+    const concern = await Concern.findById(req.params.id).populate("university", "general_email");
     if (!concern) return res.status(404).json({ error: "Concern not found" });
     if (concern.status === "forwarded") return res.json({ success: true, skipped: true });
-    const to = concern.university_id?.general_email;
+    const to = concern.university?.general_email;
     if (!to) return res.status(400).json({ error: "University general_email not configured" });
 
     await Concern.findByIdAndUpdate(req.params.id, { status: "forwarded", forwarded_at: new Date() });
     try {
-      await sendMail({ to, subject: `UniNavigator Concern: ${concern.category || "Concern"}`, text: `Student ID: ${concern.user_id}\n\nMessage:\n${concern.message}` });
+      await sendMail({ to, subject: `UniNavigator Concern: ${concern.category || "Concern"}`, text: `Student ID: ${concern.user}\n\nMessage:\n${concern.message}` });
     } catch (_) {
       // keep forwarded status even if mail fails
     }
@@ -1223,7 +1223,7 @@ app.get("/users/:id/report.pdf", async (req, res) => {
       doc.moveDown(0.2).text(`Full Name: ${user.name}`);
       doc.moveDown(0.2).text("Specialization: Information Technology");
     }
-    const modules = await Module.find({ user_id });
+    const modules = await Module.find({ user: user_id });
     const graded = modules.filter((m) => m.grade_point != null);
     const cumulativeCredits = graded.reduce((a, m) => a + (m.credits || 0), 0);
     const cumulativePoints = graded.reduce((a, m) => a + ((m.grade_point || 0) * (m.credits || 0)), 0);
