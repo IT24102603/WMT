@@ -435,7 +435,7 @@ app.post("/modules", async (req, res) => {
     const ca = ca_percentage != null ? parseInt(ca_percentage, 10) : null;
     if (ca != null && (ca < 0 || ca > 100)) return res.status(400).json({ error: "CA percentage must be between 0 and 100" });
     const c = (typeof code === "string" ? code.trim().slice(0, 50) : "").toUpperCase();
-    if (!c) return res.status(400).json({ error: "Module code is required" });
+    if (!c && c !== "") {} // code is optional
     const sem = semester != null ? parseInt(semester, 10) : 1;
     if (!sem || isNaN(sem) || sem < 1 || sem > 20) return res.status(400).json({ error: "Semester must be between 1 and 20" });
     const uniId = university_id || null;

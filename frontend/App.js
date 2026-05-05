@@ -794,11 +794,11 @@ function AttendanceScreen() {
     setSaving(true);
     try {
       const ay = parseInt(modForm.academic_year, 10) || 1;
-      const sy = parseInt(modForm.semester_in_year, 10) || 1;
+      const sy = Math.min(Math.max(parseInt(modForm.semester_in_year, 10) || 1, 1), 3);
       const { data } = await api.post("/modules", {
         user_id: user.id,
         name: modForm.name.trim(),
-        code: modForm.code.trim().toUpperCase() || null,
+        code: modForm.code.trim().toUpperCase() || "N/A",
         university_id: modForm.university_id,
         academic_year: ay,
         semester_in_year: sy,
