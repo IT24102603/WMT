@@ -839,7 +839,7 @@ app.delete("/tasks/:id", async (req, res) => {
 app.get("/universities", async (req, res) => {
   try {
     const unis = await University.find().sort({ name: 1 }).select("name general_email");
-    res.json(unis.map(u => ({ id: u._id, _id: u._id, name: u.name, general_email: u.general_email })));
+    res.json(unis.map(u => ({ id: u._id.toString(), _id: u._id.toString(), name: u.name, general_email: u.general_email })));
   } catch (err) {
     res.json([]);
   }

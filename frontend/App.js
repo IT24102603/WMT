@@ -653,7 +653,7 @@ function GPAScreen() {
                 label="University"
                 value={form.university_id}
                 placeholder="Select university"
-                items={universities.map(u => ({ label: u.name, value: String(u.id) }))}
+                items={universities.map(u => ({ label: u.name, value: u.id || u._id }))}
                 onSelect={v => setForm({...form, university_id: v})}
               />
               <Input label="Module Name *" value={form.name} onChangeText={v => setForm({...form, name: v})} placeholder="e.g. Data Structures" />
@@ -842,7 +842,7 @@ function AttendanceScreen() {
           label="University"
           value={recForm.university_id}
           placeholder="Select university"
-          items={universities.map(u => ({ label: u.name, value: String(u.id) }))}
+          items={universities.map(u => ({ label: u.name, value: u.id || u._id }))}
           onSelect={v => { setRecForm({...recForm, university_id: v, hall_id: ""}); loadHalls(v); }}
         />
         {locationStatus === "idle" && <Text style={styles.cardSubText}>Select your university then check your location.</Text>}
@@ -926,7 +926,7 @@ function AttendanceScreen() {
                 label="University *"
                 value={modForm.university_id}
                 placeholder="Select university"
-                items={universities.map(u => ({ label: u.name, value: String(u.id) }))}
+                items={universities.map(u => ({ label: u.name, value: u.id || u._id }))}
                 onSelect={v => setModForm({...modForm, university_id: v})}
               />
               <Input label="Academic Year" value={modForm.academic_year} onChangeText={v => setModForm({...modForm, academic_year: v})} keyboardType="numeric" />
@@ -1235,7 +1235,7 @@ function RepeatScreen() {
                 label="University *"
                 value={addForm.university_id}
                 placeholder="Select university"
-                items={universities.map(u => ({ label: u.name, value: String(u.id) }))}
+                items={universities.map(u => ({ label: u.name, value: u.id || u._id }))}
                 onSelect={v => setAddForm({...addForm, university_id: v})}
               />
               <Input label="Academic Year" value={addForm.academic_year} onChangeText={v => setAddForm({...addForm, academic_year: v})} keyboardType="numeric" />
@@ -1378,7 +1378,7 @@ function ConcernsScreen() {
                 label="University *"
                 value={form.university_id}
                 placeholder="Select university"
-                items={universities.map(u => ({ label: u.name, value: String(u.id) }))}
+                items={universities.map(u => ({ label: u.name, value: u.id || u._id }))}
                 onSelect={v => setForm({...form, university_id: v})}
               />
               <SelectField
