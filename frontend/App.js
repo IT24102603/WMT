@@ -65,7 +65,16 @@ function AuthProvider({ children }) {
     (async () => {
       try {
         const stored = await AsyncStorage.getItem("user");
-        if (stored) setUser(JSON.parse(stored));
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          // Fix corrupted id if it's not a plain string
+          if (parsed && typeof parsed.id !== "string") {
+            await AsyncStorage.removeItem("user");
+            await AsyncStorage.removeItem("token");
+          } else {
+            setUser(parsed);
+          }
+        }
       } catch (_) {}
       setLoading(false);
     })();
