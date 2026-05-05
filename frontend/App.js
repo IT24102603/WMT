@@ -488,7 +488,7 @@ function GPAScreen() {
       const academic_year = parseInt(form.academic_year, 10) || 1;
       const semester_in_year = parseInt(form.semester_in_year, 10) || 1;
       const payload = {
-        user_id: user.id,
+        user_id: String(user.id),
         name: form.name.trim(),
         code: form.code.trim().toUpperCase(),
         credits: parseInt(form.credits, 10) || 3,
@@ -770,7 +770,7 @@ function AttendanceScreen() {
     try {
       const mod = modules.find(m => String(m.id) === String(recForm.module_id));
       const { data } = await api.post("/attendance", {
-        user_id: user.id,
+        user_id: String(user.id),
         module_name: mod?.name || "",
         module_id: recForm.module_id,
         attended: att,
@@ -796,7 +796,7 @@ function AttendanceScreen() {
       const ay = parseInt(modForm.academic_year, 10) || 1;
       const sy = Math.min(Math.max(parseInt(modForm.semester_in_year, 10) || 1, 1), 3);
       const { data } = await api.post("/modules", {
-        user_id: user.id,
+        user_id: String(user.id),
         name: modForm.name.trim(),
         code: modForm.code.trim().toUpperCase() || "N/A",
         university_id: modForm.university_id,
@@ -961,7 +961,7 @@ function TasksScreen() {
     setSaving(true);
     try {
       const { data } = await api.post("/tasks", {
-        user_id: user.id,
+        user_id: String(user.id),
         title: form.title.trim(),
         module_code: form.module_code.trim() || null,
         due_date: form.due_date || null,
@@ -1105,7 +1105,7 @@ function RepeatScreen() {
       const ay = parseInt(addForm.academic_year, 10) || 1;
       const sy = parseInt(addForm.semester_in_year, 10) || 1;
       const { data } = await api.post("/modules", {
-        user_id: user.id,
+        user_id: String(user.id),
         university_id: addForm.university_id,
         academic_year: ay,
         semester_in_year: sy,
@@ -1319,7 +1319,7 @@ function ConcernsScreen() {
     setSaving(true);
     try {
       const { data } = await api.post("/concerns", {
-        user_id: user.id,
+        user_id: String(user.id),
         university_id: form.university_id,
         category: form.category || null,
         message: form.message.trim(),
@@ -1556,7 +1556,7 @@ function AdminUsersScreen() {
 
   const changeRole = async (uid, newRole) => {
     try {
-      const { data } = await api.put(`/admin/users/${uid}/role`, { admin_user_id: user.id, role: newRole });
+      const { data } = await api.put(`/admin/users/${uid}/role`, { admin_user_id: String(user.id), role: newRole });
       if (data?.error) { Alert.alert("Error", data.error); return; }
       load();
     } catch (e) { Alert.alert("Error", e.message); }
@@ -1656,7 +1656,7 @@ function AdminHallsScreen() {
         center_lng: parseFloat(hallForm.lng),
         radius_m: parseInt(hallForm.radius, 10),
         university_id: selectedUni,
-        admin_user_id: user.id,
+        admin_user_id: String(user.id),
       });
       if (data?.error) throw new Error(data.error);
       setShowAddHall(false);
@@ -1781,7 +1781,7 @@ function AdminConcernsScreen() {
 
   const closeConcern = async (id) => {
     try {
-      await api.patch(`/admin/concerns/${id}`, { admin_user_id: user.id, status: "closed" });
+      await api.patch(`/admin/concerns/${id}`, { admin_user_id: String(user.id), status: "closed" });
       load();
     } catch (e) { Alert.alert("Error", e.message); }
   };

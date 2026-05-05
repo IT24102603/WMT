@@ -266,7 +266,7 @@ app.post("/register", async (req, res) => {
 
     const hashed = await bcrypt.hash(p, 10);
     const user = await User.create({ name: n, email: e.toLowerCase(), password: hashed });
-    res.json({ id: user._id, name: user.name, email: user.email });
+    res.json({ id: user._id.toString(), name: user.name, email: user.email });
   } catch (err) {
     res.status(400).json({ error: "Email already exists" });
   }
@@ -317,7 +317,7 @@ app.get("/me", verifyToken, async (req, res) => {
     if (!user) return res.json({ user: null });
     res.json({
       user: {
-        id: user._id,
+        id: user._id.toString(),
         name: user.name,
         email: user.email,
         index_number: user.index_number,
