@@ -1,19 +1,4 @@
-/**
- * UniNavigator — Backend (Node.js + Express + MongoDB)
- *
- * Converted from MySQL/express-session to MongoDB/JWT.
- * All original API routes and business logic are preserved.
- *
- * Setup:
- *   npm install express mongoose bcryptjs jsonwebtoken cors dotenv
- *                multer nodemailer pdfkit xlsx
- *
- * Environment variables (.env):
- *   MONGO_URI=mongodb://localhost:27017/uniNavigator
- *   JWT_SECRET=uninavigator-jwt-secret
- *   PORT=3000
- *   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM  (optional)
- */
+
 
 require("dotenv").config();
 const express = require("express");

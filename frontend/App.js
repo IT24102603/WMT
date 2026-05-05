@@ -15,7 +15,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // ============================================================
 // CONFIGURATION
 // ============================================================
-const API_BASE = "https://wmt-tbo4.onrender.com"; // ← Change to your server IP/URL
+const API_BASE = "https://wmt-tbo4.onrender.com"; 
 
 const api = axios.create({ baseURL: API_BASE });
 
