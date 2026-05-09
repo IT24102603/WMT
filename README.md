@@ -1,4 +1,4 @@
-=============================================================================================
+
   UNINAVIGATOR — Academic Companion for Sri Lankan University Students
   Project ID  : WE_IT_06
   Course      : SE2020 WMT Project
