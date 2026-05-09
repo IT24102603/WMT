@@ -1,9 +1,8 @@
-================================================================================
   UNINAVIGATOR — Academic Companion for Sri Lankan University Students
   Project ID  : WE_IT_06
   Course      : SE2020 WMT Project
   Campus      : SLIIT Malabe | Stream: Information Technology | WD/WE: WE
-================================================================================
+
 To view previous github history goto - https://github.com/IT24102603/IT-Project---ITP_105
 Exsisting ITP project developed as mobile application.
 
